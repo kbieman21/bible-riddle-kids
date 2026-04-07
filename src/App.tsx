@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import riddlesData from './data/riddles.json';
 import { getVerse } from './lib/bible';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import Confetti from 'react-confetti';
+import { BookOpen, Shuffle, Star, Award } from 'lucide-react';
 
 type Riddle = {
   id: number;
@@ -13,131 +14,235 @@ type Riddle = {
   explanation: string;
 };
 
+const categories = [
+  { name: "All", icon: Star, color: "from-purple-500 to-pink-500" },
+  { name: "Creation", icon: BookOpen, color: "from-green-500 to-emerald-500" },
+  { name: "Heroes", icon: Award, color: "from-amber-500 to-orange-500" },
+  { name: "Jesus Stories", icon: Star, color: "from-blue-500 to-cyan-500" },
+  { name: "Parables", icon: BookOpen, color: "from-violet-500 to-purple-500" },
+  { name: "Rescue Stories", icon: Award, color: "from-red-500 to-rose-500" },
+];
+
 function App() {
   const [riddles] = useState<Riddle[]>(riddlesData);
-  const [selectedRiddle, setSelectedRiddle] = useState<Riddle | null>(null);
-  const [verse, setVerse] = useState<any>(null);
+  const [filteredRiddles, setFilteredRiddles] = useState<Riddle[]>(riddlesData);
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [currentRiddle, setCurrentRiddle] = useState<Riddle | null>(null);
   const [showAnswer, setShowAnswer] = useState(false);
+  const [verse, setVerse] = useState<any>(null);
   const [loadingVerse, setLoadingVerse] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Test: Load a random riddle on start
+  // Filter riddles when category changes
   useEffect(() => {
-    if (riddles.length > 0) {
-      setSelectedRiddle(riddles[Math.floor(Math.random() * riddles.length)]);
+    if (selectedCategory === "All") {
+      setFilteredRiddles(riddles);
+    } else {
+      setFilteredRiddles(riddles.filter(r => r.category === selectedCategory));
     }
-  }, [riddles]);
+  }, [selectedCategory, riddles]);
 
-  const loadVerse = async (reference: string) => {
-    setLoadingVerse(true);
-    const verseData = await getVerse(reference);
-    setVerse(verseData);
-    setLoadingVerse(false);
+  // Pick a random riddle
+  const getRandomRiddle = () => {
+    const randomIndex = Math.floor(Math.random() * riddles.length);
+    openRiddle(riddles[randomIndex]);
   };
 
-  const revealAnswer = (riddle: Riddle) => {
-    setSelectedRiddle(riddle);
-    setShowAnswer(true);
-    loadVerse(riddle.verseReference);
-    setShowConfetti(true);
+  const openRiddle = (riddle: Riddle) => {
+    setCurrentRiddle(riddle);
+    setShowAnswer(false);
+    setVerse(null);
+    setIsModalOpen(true);
+  };
+
+  const revealAnswer = async () => {
+    if (!currentRiddle) return;
     
-    // Stop confetti after 4 seconds
-    setTimeout(() => setShowConfetti(false), 4000);
+    setShowAnswer(true);
+    setLoadingVerse(true);
+    setShowConfetti(true);
+
+    const verseData = await getVerse(currentRiddle.verseReference);
+    setVerse(verseData);
+    setLoadingVerse(false);
+
+    // Stop confetti after 5 seconds
+    setTimeout(() => setShowConfetti(false), 5000);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setShowAnswer(false);
+    setVerse(null);
+    setShowConfetti(false);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500 p-6 text-white">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-5xl font-bold text-center mb-8 drop-shadow-lg">
-          🧩 Bible Riddles for Kids
-        </h1>
+    <div className="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-600 to-pink-500 text-white overflow-hidden">
+      {showConfetti && <Confetti numberOfPieces={300} recycle={false} />}
 
-        {showConfetti && <Confetti numberOfPieces={200} recycle={false} />}
-
-        {/* Test: Show all categories */}
-        <div className="mb-8">
-          <h2 className="text-2xl mb-4">Available Categories</h2>
-          <div className="flex flex-wrap gap-2">
-            {[...new Set(riddles.map(r => r.category))].map(cat => (
-              <span key={cat} className="bg-white/20 px-4 py-1 rounded-full text-sm">
-                {cat}
-              </span>
-            ))}
+      <div className="max-w-5xl mx-auto px-6 py-10">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <div className="flex justify-center mb-4">
+            <div className="bg-white/20 backdrop-blur-md px-8 py-4 rounded-3xl flex items-center gap-4">
+              <span className="text-6xl">🧩</span>
+              <div>
+                <h1 className="text-5xl font-bold tracking-tight">Bible Riddles</h1>
+                <p className="text-xl opacity-90">Fun way to learn God's Word!</p>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Current Riddle */}
-        {selectedRiddle && (
-          <motion.div 
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 shadow-2xl"
+        {/* Big Random Button */}
+        <div className="flex justify-center mb-12">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={getRandomRiddle}
+            className="flex items-center gap-4 bg-yellow-400 hover:bg-yellow-300 text-black font-bold text-2xl px-12 py-6 rounded-3xl shadow-xl transition-all"
           >
-            <div className="text-center mb-6">
-              <p className="text-sm uppercase tracking-widest opacity-75">Riddle #{selectedRiddle.id}</p>
-              <p className="text-xl font-semibold mt-1">{selectedRiddle.category}</p>
-            </div>
+            <Shuffle className="w-8 h-8" />
+            Surprise Me! Random Riddle
+          </motion.button>
+        </div>
 
-            <div className="text-3xl leading-relaxed text-center mb-10 min-h-[120px]">
-              "{selectedRiddle.riddle}"
-            </div>
+        {/* Category Buttons */}
+        <div className="mb-10">
+          <h2 className="text-2xl font-semibold mb-4 text-center">Choose a Category</h2>
+          <div className="flex flex-wrap justify-center gap-3">
+            {categories.map((cat) => {
+              const Icon = cat.icon;
+              const isActive = selectedCategory === cat.name;
+              return (
+                <motion.button
+                  key={cat.name}
+                  whileHover={{ scale: 1.08 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setSelectedCategory(cat.name)}
+                  className={`flex items-center gap-3 px-8 py-4 rounded-2xl font-medium text-lg transition-all ${
+                    isActive 
+                      ? 'bg-white text-black shadow-2xl' 
+                      : 'bg-white/20 hover:bg-white/30 backdrop-blur-md'
+                  }`}
+                >
+                  <Icon className="w-6 h-6" />
+                  {cat.name}
+                </motion.button>
+              );
+            })}
+          </div>
+        </div>
 
-            <div className="flex justify-center gap-4">
-              <button
-                onClick={() => revealAnswer(selectedRiddle)}
-                className="bg-yellow-400 hover:bg-yellow-300 text-black font-bold px-10 py-4 rounded-2xl text-xl transition"
-              >
-                Reveal Answer ✨
-              </button>
-            </div>
+        {/* Riddle Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredRiddles.map((riddle) => (
+            <motion.div
+              key={riddle.id}
+              whileHover={{ scale: 1.03, y: -5 }}
+              className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-8 cursor-pointer hover:border-yellow-300 transition-all group"
+              onClick={() => openRiddle(riddle)}
+            >
+              <div className="flex justify-between items-start mb-6">
+                <span className="text-sm font-mono opacity-60">#{riddle.id}</span>
+                <span className="text-xs px-4 py-1 bg-white/20 rounded-full">{riddle.category}</span>
+              </div>
+              
+              <div className="text-2xl leading-tight font-medium min-h-[110px] group-hover:text-yellow-200 transition-colors">
+                "{riddle.riddle}"
+              </div>
 
-            {showAnswer && (
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="mt-10 border-t border-white/30 pt-8"
-              >
-                <h3 className="text-2xl font-bold mb-3">The Answer Is:</h3>
-                <p className="text-4xl font-bold text-yellow-300 mb-6">{selectedRiddle.answer}</p>
+              <div className="mt-8 text-right">
+                <span className="text-yellow-300 text-sm font-medium flex items-center justify-end gap-2">
+                  Click to solve <span className="text-xl">→</span>
+                </span>
+              </div>
+            </motion.div>
+          ))}
+        </div>
 
-                {loadingVerse ? (
-                  <p className="text-lg">Loading Bible verse...</p>
-                ) : verse && (
-                  <div className="bg-white/10 p-6 rounded-2xl">
-                    <p className="italic text-lg leading-relaxed">"{verse.text}"</p>
-                    <p className="text-right mt-4 font-semibold">— {verse.reference}</p>
+        {filteredRiddles.length === 0 && (
+          <p className="text-center text-2xl mt-12 opacity-70">No riddles in this category yet. Try another!</p>
+        )}
+      </div>
+
+      {/* Riddle Modal */}
+      <AnimatePresence>
+        {isModalOpen && currentRiddle && (
+          <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-6 z-50">
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              className="bg-white text-black max-w-2xl w-full rounded-3xl overflow-hidden shadow-2xl"
+            >
+              <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-8">
+                <div className="flex justify-between items-center">
+                  <div>
+                    <p className="uppercase tracking-widest text-sm opacity-80">Riddle #{currentRiddle.id}</p>
+                    <p className="text-2xl font-bold">{currentRiddle.category}</p>
+                  </div>
+                  <button 
+                    onClick={closeModal}
+                    className="text-4xl hover:rotate-90 transition-transform"
+                  >
+                    ×
+                  </button>
+                </div>
+              </div>
+
+              <div className="p-10">
+                <div className="text-3xl leading-relaxed text-center mb-12 font-medium">
+                  "{currentRiddle.riddle}"
+                </div>
+
+                {!showAnswer ? (
+                  <button
+                    onClick={revealAnswer}
+                    className="w-full bg-gradient-to-r from-yellow-400 to-amber-500 hover:from-yellow-300 hover:to-amber-400 text-black font-bold text-2xl py-6 rounded-2xl transition-all"
+                  >
+                    Reveal the Answer ✨
+                  </button>
+                ) : (
+                  <div className="space-y-10">
+                    <div>
+                      <h3 className="text-3xl font-bold text-amber-600 mb-4">The Answer Is:</h3>
+                      <p className="text-5xl font-bold text-amber-500">{currentRiddle.answer}</p>
+                    </div>
+
+                    {loadingVerse ? (
+                      <p className="text-center text-xl py-8">Loading God's Word...</p>
+                    ) : verse && (
+                      <div className="bg-amber-50 border border-amber-200 p-8 rounded-2xl">
+                        <p className="italic text-2xl leading-relaxed">"{verse.text}"</p>
+                        <p className="text-right mt-6 font-semibold text-lg">— {verse.reference}</p>
+                      </div>
+                    )}
+
+                    <div>
+                      <h4 className="font-bold text-2xl mb-4 flex items-center gap-3">
+                        <Star className="text-amber-500" /> What does it mean for us?
+                      </h4>
+                      <p className="text-xl leading-relaxed text-gray-700">{currentRiddle.explanation}</p>
+                    </div>
                   </div>
                 )}
+              </div>
 
-                <div className="mt-8">
-                  <h4 className="font-bold text-xl mb-3">What does it mean?</h4>
-                  <p className="text-lg leading-relaxed">{selectedRiddle.explanation}</p>
-                </div>
-              </motion.div>
-            )}
-          </motion.div>
-        )}
-
-        {/* List all riddles for testing */}
-        <div className="mt-12">
-          <h2 className="text-2xl mb-6">All 20 Riddles (Test List)</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {riddles.map(riddle => (
-              <button
-                key={riddle.id}
-                onClick={() => {
-                  setSelectedRiddle(riddle);
-                  setShowAnswer(false);
-                  setVerse(null);
-                }}
-                className="text-left bg-white/10 hover:bg-white/20 p-5 rounded-2xl transition text-sm"
-              >
-                <span className="font-mono opacity-60">#{riddle.id}</span> — {riddle.riddle.substring(0, 80)}...
-              </button>
-            ))}
+              <div className="bg-gray-100 px-10 py-6 flex justify-end">
+                <button
+                  onClick={closeModal}
+                  className="px-10 py-4 text-lg font-medium text-gray-600 hover:text-black transition"
+                >
+                  Close
+                </button>
+              </div>
+            </motion.div>
           </div>
-        </div>
-      </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
