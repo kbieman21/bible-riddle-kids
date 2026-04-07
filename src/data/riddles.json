@@ -1,0 +1,162 @@
+[
+  {
+    "id": 1,
+    "category": "Creation",
+    "riddle": "I spoke and light filled the sky so bright, made stars, trees, and animals with all my might. Six days of work, then I rested with delight. Who am I?",
+    "answer": "God (the Creator)",
+    "verseReference": "Genesis 1:1",
+    "explanation": "God made the whole world out of nothing because He loves us! This shows He is powerful and wants us to enjoy His beautiful creation."
+  },
+  {
+    "id": 2,
+    "category": "Heroes",
+    "riddle": "Rain poured for forty days and nights so dark, but I built a giant boat and saved every animal pair in the ark. Who am I?",
+    "answer": "Noah",
+    "verseReference": "Genesis 6:14",
+    "explanation": "Noah obeyed God even when it looked silly. God kept His promise and saved Noah’s family — He always protects those who trust Him!"
+  },
+  {
+    "id": 3,
+    "category": "Heroes",
+    "riddle": "I was a small boy with just a sling and stones, faced a giant and won because God was on my side alone. Who am I?",
+    "answer": "David",
+    "verseReference": "1 Samuel 17:45",
+    "explanation": "David knew God was bigger than any giant. With God’s help, even kids can be brave and win!"
+  },
+  {
+    "id": 4,
+    "category": "Rescue Stories",
+    "riddle": "I was thrown in the sea and swallowed by a fish so wide, prayed inside its belly until God let me out alive. Who am I?",
+    "answer": "Jonah",
+    "verseReference": "Jonah 2:10",
+    "explanation": "God rescued Jonah when he prayed. He gives second chances and always hears our prayers!"
+  },
+  {
+    "id": 5,
+    "category": "Heroes",
+    "riddle": "Lions roared all around me in a scary den, but I prayed and God shut their mouths — I was safe again. Who am I?",
+    "answer": "Daniel",
+    "verseReference": "Daniel 6:22",
+    "explanation": "Daniel trusted God more than fear. God protects us when we pray and obey!"
+  },
+  {
+    "id": 6,
+    "category": "Miracles",
+    "riddle": "I was a tiny baby in a basket on the river wide, a princess found me and I grew up to lead God’s people with pride. Who am I?",
+    "answer": "Moses",
+    "verseReference": "Exodus 2:3",
+    "explanation": "God saved baby Moses and used him to rescue His people. He has big plans for every kid!"
+  },
+  {
+    "id": 7,
+    "category": "Jesus Stories",
+    "riddle": "I had only five loaves and two fish to share, Jesus blessed them and fed thousands — wow, what a miracle there! Who am I?",
+    "answer": "The boy with lunch (Feeding 5000)",
+    "verseReference": "John 6:9",
+    "explanation": "Jesus used a little boy’s lunch to feed everyone. When we give what we have, God multiplies it!"
+  },
+  {
+    "id": 8,
+    "category": "Jesus Stories",
+    "riddle": "I walked on water when Jesus said 'Come!' to me, but I sank when I looked at the waves instead of Him, you see. Who am I?",
+    "answer": "Peter",
+    "verseReference": "Matthew 14:29",
+    "explanation": "Peter walked on water by looking at Jesus. Keep your eyes on Him and you can do amazing things!"
+  },
+  {
+    "id": 9,
+    "category": "Parables",
+    "riddle": "I helped the hurt man when others walked on by, bandaged him up and showed God’s love from my heart and my supply. Who am I?",
+    "answer": "The Good Samaritan",
+    "verseReference": "Luke 10:33",
+    "explanation": "Jesus said love your neighbor like this! Be kind to everyone, even strangers."
+  },
+  {
+    "id": 10,
+    "category": "Parables",
+    "riddle": "I ran away from home and wasted all my cash, but Dad ran to hug me when I came back — what a splash! Who am I?",
+    "answer": "The Prodigal Son",
+    "verseReference": "Luke 15:20",
+    "explanation": "God is like the loving father — He always welcomes us home when we say sorry."
+  },
+  {
+    "id": 11,
+    "category": "Jesus Stories",
+    "riddle": "I was dead for three days in a dark, cold tomb, Jesus called my name and I walked out — no more gloom! Who am I?",
+    "answer": "Lazarus",
+    "verseReference": "John 11:43",
+    "explanation": "Jesus has power over death! Because He rose, we can live with Him forever."
+  },
+  {
+    "id": 12,
+    "category": "Heroes",
+    "riddle": "I had a colorful coat that made my brothers mad, but God used my story for good — the best ending they ever had. Who am I?",
+    "answer": "Joseph",
+    "verseReference": "Genesis 50:20",
+    "explanation": "God turned Joseph’s hard times into something good. He can do the same for you!"
+  },
+  {
+    "id": 13,
+    "category": "Heroes",
+    "riddle": "I marched around Jericho with trumpets so loud, the walls fell down when we shouted — what a crowd! Who am I?",
+    "answer": "Joshua",
+    "verseReference": "Joshua 6:20",
+    "explanation": "God fights for us when we obey. Trust His plan and watch walls come down!"
+  },
+  {
+    "id": 14,
+    "category": "Heroes",
+    "riddle": "I was a queen who risked her life for her people one night, 'If I perish, I perish' — I stood up for what was right. Who am I?",
+    "answer": "Esther",
+    "verseReference": "Esther 4:16",
+    "explanation": "Esther was brave for God. He places us right where we can help others."
+  },
+  {
+    "id": 15,
+    "category": "Heroes",
+    "riddle": "I stayed with my mother-in-law when times got tough, God blessed us both with a wonderful family — that’s enough! Who am I?",
+    "answer": "Ruth",
+    "verseReference": "Ruth 1:16",
+    "explanation": "Ruth chose loyalty and God gave her a happy ending. Kindness always wins!"
+  },
+  {
+    "id": 16,
+    "category": "Jesus Stories",
+    "riddle": "I was short and climbed a tree to see Jesus pass by, He called me down and said 'Today salvation came to your house — don’t cry!' Who am I?",
+    "answer": "Zacchaeus",
+    "verseReference": "Luke 19:5",
+    "explanation": "Jesus loves us even when others don’t. He changes hearts!"
+  },
+  {
+    "id": 17,
+    "category": "Parables",
+    "riddle": "I left the 99 sheep safe on the hill so high, searched until I found the lost one — what a happy cry! Who am I?",
+    "answer": "The Good Shepherd (Jesus)",
+    "verseReference": "Luke 15:4",
+    "explanation": "Jesus never gives up on us. You are His precious sheep!"
+  },
+  {
+    "id": 18,
+    "category": "Jesus Stories",
+    "riddle": "The storm was wild, waves crashed on our boat, Jesus said 'Peace, be still!' and the sea became calm as a float. Who am I?",
+    "answer": "Jesus (Calming the Storm)",
+    "verseReference": "Mark 4:39",
+    "explanation": "Jesus is stronger than any storm. He brings peace to our hearts."
+  },
+  {
+    "id": 19,
+    "category": "Heroes",
+    "riddle": "We were thrown in a furnace hot as can be, an angel walked with us — we came out free! Who are we?",
+    "answer": "Shadrach, Meshach, and Abednego",
+    "verseReference": "Daniel 3:25",
+    "explanation": "They refused to bow to idols. God stayed right with them in the fire!"
+  },
+  {
+    "id": 20,
+    "category": "Heroes",
+    "riddle": "I was fed by ravens in the desert dry, God sent food from the sky — He always provides, oh my! Who am I?",
+    "answer": "Elijah",
+    "verseReference": "1 Kings 17:6",
+    "explanation": "God took care of Elijah every day. He provides for you too!"
+  }
+]
